@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import MetaTrader5 as mt
 import pandas as pd
 
-from MT5_TOOL.model_setup import train_model
+from MT5_TOOL.model_setup import model_building
 
 # mt.initialize()
 #
@@ -28,7 +28,7 @@ Symbol = "EURUSD"
 timeMT =1
 
 
-setUp = train_model(
+setUp = model_building(
     RootPath = "models",
     Symbol   = Symbol,
 )
@@ -40,7 +40,7 @@ setUp.model_setup(
                     deviation = 20,
                     sl_pips = 15,
                     tp_pips = 30,
-                    skipFunctionBoundries = .60,
+                    skipFunctionBoundaries = .60,
                     preprocesMethods = {
                             "Candle" : True,
                             "MinMax" : True,
@@ -54,5 +54,5 @@ setUp.model_setup(
 # df.sort_values("time")
 # re = setUp.data_preparing_rows(df)
 # print(re)
-setUp.train_model_Tp_Sl()
+setUp.build_AI()
 

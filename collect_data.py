@@ -38,7 +38,7 @@ setUp.model_setup(
                     deviation = 20,
                     sl_pips = 15,
                     tp_pips = 30,
-                    skipFunctionBoundries = .60,
+                    skipFunctionBoundaries= .60,
                     preprocesMethods={
 
                             "Candle" : True,

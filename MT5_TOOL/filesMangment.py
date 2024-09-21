@@ -44,7 +44,7 @@ class SymbolInfo:
                     deviation,
                     sl_pips,
                     tp_pips,
-                    skipFunctionBoundries,
+                    skipFunctionBoundaries,
                     preprocesMethods,
                     **kwargs
                     ):
@@ -83,10 +83,10 @@ class SymbolInfo:
         self.tp_pips = tp_pips  # Take Profit in pips
 
         # threshold to skip under it.
-        self.skipFunctionBoundries = skipFunctionBoundries
+        self.skipFunctionBoundries = skipFunctionBoundaries
 
         # Can BUILD MODEL
-        self.__SaveLog(
+        self._SaveLog(
             message="A New Setup is Created",
             typeOFlog= 0
         )
@@ -95,8 +95,6 @@ class SymbolInfo:
 
     def SaveSetUp(self, name="" , **kwargs):
         self.SetUpLoaded()
-
-
 
         if name == "":
             setUpPath = os.path.join(self.mainPath, "setUp", self.id)
@@ -122,7 +120,7 @@ class SymbolInfo:
 
         with open(fr'{setUpPath}.json', 'w') as json_file:
             json.dump(data, json_file)
-        self.__SaveLog(f"setup Saved {name}", typeOFlog=0)
+        self._SaveLog(f"setup Saved {name}", typeOFlog=0)
 
     def GetCurrentSetUp(self):
         return      {
@@ -162,14 +160,14 @@ class SymbolInfo:
             deviation=retrieved_data['deviation'],
             sl_pips=retrieved_data['sl_pips'],
             tp_pips=retrieved_data['tp_pips'],
-            skipFunctionBoundries=retrieved_data['skipFunctionBoundries'],
+            skipFunctionBoundaries=retrieved_data['skipFunctionBoundries'],
             preprocesMethods=retrieved_data['preprocesMethods'],
             id=retrieved_data['id'],
 
         )
         self.SetupReady = True
 
-        self.__SaveLog(f"New SetUp is loaded {name}", typeOFlog=0)
+        self._SaveLog(f"New SetUp is loaded {name}", typeOFlog=0)
 
     def SaveTrades(self, trades):
         self.SetUpLoaded()
@@ -177,7 +175,7 @@ class SymbolInfo:
         trades['id'] = self.id
         with open(fr'{Path}.json', 'w') as json_file:
             json.dump(trades, json_file)
-        self.__SaveLog(f"New Trades is Saved", typeOFlog=1)
+        self._SaveLog(f"New Trades is Saved", typeOFlog=1)
 
 
     def SaveStock(self, stocks, column_names=None):
@@ -213,16 +211,16 @@ class SymbolInfo:
         with open(indexPath, 'w') as json_file:
             json.dump(indexs, json_file, indent=4)
             
-        self.__SaveLog(f"New Data is Saved", typeOFlog=1)
+        self._SaveLog(f"New Data is Saved", typeOFlog=1)
 
-    def __saved_file_check(self, fileName , path, type):
+    def _saved_file_check(self, fileName, path, typeOFlog):
         if os.path.exists(path):
-            self.__SaveLog(f"file Saved Successfully {fileName}"  ,typeOFlog=type)
+            self._SaveLog(f"file Saved Successfully {fileName}", typeOFlog=typeOFlog)
         else:
-            self.__SaveLog(f"file failed {fileName}"  ,typeOFlog=type)
+            self._SaveLog(f"file failed {fileName}", typeOFlog=typeOFlog)
 
 
-    def __SaveLog(self, message, typeOFlog):
+    def _SaveLog(self, message, typeOFlog):
         LOGStypes = ["setup", "Data_info", "model_building", "Extra",]
 
         Path = os.path.join(self.mainPath, "LOGS", f"{LOGStypes[typeOFlog]}")
