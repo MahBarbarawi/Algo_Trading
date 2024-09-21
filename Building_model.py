@@ -49,7 +49,7 @@ setUp.model_setup(
 
                     }
 )
-
+setUp.SaveSetUp()
 # df =pd.read_csv("models/EURUSD/stocks/stock_EURUSD_1.csv")
 # df.sort_values("time")
 # re = setUp.data_preparing_rows(df)

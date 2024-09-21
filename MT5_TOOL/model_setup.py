@@ -270,7 +270,6 @@ class model_building(AImodelForex):
     def train_model(self, path):
         self.__binaryPreparing_spliting()
         self._SaveLog(message="building Binary model", typeOFlog=2)
-
         # Define the Input Layers
         input_1 = Input(shape=self.input_shape_X)
         input_2 = Input(shape=self.input_shape_Des)
@@ -304,7 +303,7 @@ class model_building(AImodelForex):
 
         # Output layer
         output = Dense(self.classesNum, activation='sigmoid')(x)  # Assuming a binary classification task
-
+        print(f"shapes {input_1.shape,input_2.shape,input_3.shape,input_4.shape}")
         # Create the model
         model = Model(inputs=[input_1,
                               input_2,
@@ -381,7 +380,7 @@ class model_building(AImodelForex):
         models_path = self.train_model_Tp_Sl(path)
 
         main_models_setup = {
-            "id":1,
+            "id":self.id,
             "path": path,
             "main_model": main_model_path,
             "bear_tp": models_path["bear_tp"],
@@ -397,7 +396,7 @@ class model_building(AImodelForex):
 
             }
         }
-        setPath = os.path.join(path,"models_setUp.json")
+        setPath = os.path.join(path,"models_setUp")
         with open(fr'{setPath}.json', 'w') as json_file:
             json.dump(main_models_setup, json_file)
 

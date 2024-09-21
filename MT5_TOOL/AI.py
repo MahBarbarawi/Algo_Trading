@@ -130,7 +130,7 @@ class AImodelForex(SymbolInfo):
         return df[['Middle Band', 'Upper Band', 'Lower Band']]
 
     def __Val(self, df):
-        return df[["open", "high", "low", "close"]].describe().T.iloc[:, 1:]
+        return df[["open", "high", "low", "close"]].describe().T.iloc[:, 1:].values
     def __Main_data_preproces(self, data,datalength= None):
         self.__checkData(data)
         self.__dataLength( data ,length=datalength )
@@ -225,9 +225,10 @@ class AImodelForex(SymbolInfo):
     def data_preparing_row(self,
                            row,
                            period=10,
-                           window=120
-
+                           window=120,
                            ):
+        row['datetime'] = pd.to_datetime(row['time'],unit='s')
+
         self.DataLength =self.intervalTime + max(period,window)
 
 
@@ -275,7 +276,7 @@ class AImodelForex(SymbolInfo):
         rows['segment_id'] = rows['more_than_1_min'].cumsum()
 
         segments = [group for _, group in rows[['segment_id',
-                                                'datetime',
+                                                'time',
                                                 "open",
                                                 "high",
                                                 "low",
@@ -283,11 +284,11 @@ class AImodelForex(SymbolInfo):
                                                 ]].groupby('segment_id')]
         Data = {key: [] for key in self.dataSetItems}
         count= 0
-        targets = {key: [] for key in ['diff',
-            'prediction',
-            'BuyPoint',
-            'tp',
-            'sl',]}
+        targets = {key: [] for key in  ['diff',
+                                        'prediction',
+                                        'BuyPoint',
+                                        'tp',
+                                        'sl',]}
         ValuesTarget = 0
 
         for SubData in segments:
@@ -298,7 +299,9 @@ class AImodelForex(SymbolInfo):
                 if  len(SubData)-(dataLength+self.nextTime)  < length:
                     break
                 subRow = SubData.iloc[length:length+dataLength]
+
                 subTarget = SubData[["open", "high", "low", "close"]].iloc[length+dataLength:length+dataLength+self.nextTime]
+
                 re = self.data_preparing_row(
                     row = subRow,
                     period=period,
@@ -320,6 +323,7 @@ class AImodelForex(SymbolInfo):
             break
 
         print(f"ValuesTarget = {ValuesTarget}|| ValuesTarget = {ValuesTarget/5}")
+
         for DataSetName in self.dataSetItems:
             Data[DataSetName] = np.array(Data[DataSetName])
 
