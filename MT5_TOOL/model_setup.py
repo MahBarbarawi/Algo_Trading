@@ -157,7 +157,7 @@ class model_building(AImodelForex):
 
         return train_data, val_data, test_data
 
-    def train_model_Tp_Sl(self,  ):
+    def train_model_Tp_Sl(self, path):
         self.__Data_Preparing_Tp_Sl_all()
         model_name = {}
         for typeOfRun in ['bear', 'bull']:
