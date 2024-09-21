@@ -54,4 +54,5 @@ setUp.model_setup(
 # df.sort_values("time")
 # re = setUp.data_preparing_rows(df)
 # print(re)
-setUp.train_model()
+setUp.train_model_Tp_Sl()
+

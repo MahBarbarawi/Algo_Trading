@@ -23,12 +23,12 @@ formatted_full = now.strftime("%Y-%m-%d %H:%M:%S")
 print(dash, f"start trading,-{formatted_full}-")
 
 if info:
-    model.SaveLog("login success" ,typeOFlog="account_log")
+    model.__SaveLog("login success", typeOFlog="account_log")
 else:
-    model.SaveLog("login FAILED"  ,typeOFlog="account_log")
+    model.__SaveLog("login FAILED", typeOFlog="account_log")
 
 
-model.SaveLog("start trading",typeOFlog="trading")
+model.__SaveLog("start trading", typeOFlog="trading")
 # some_file_management_function()
 while True:
     ActiveTrades = mt.positions_get()

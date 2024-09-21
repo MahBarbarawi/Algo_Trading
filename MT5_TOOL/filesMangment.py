@@ -86,7 +86,7 @@ class SymbolInfo:
         self.skipFunctionBoundries = skipFunctionBoundries
 
         # Can BUILD MODEL
-        self.SaveLog(
+        self.__SaveLog(
             message="A New Setup is Created",
             typeOFlog= 0
         )
@@ -122,7 +122,7 @@ class SymbolInfo:
 
         with open(fr'{setUpPath}.json', 'w') as json_file:
             json.dump(data, json_file)
-        self.SaveLog(f"setup Saved {name}",typeOFlog=0)
+        self.__SaveLog(f"setup Saved {name}", typeOFlog=0)
 
     def GetCurrentSetUp(self):
         return      {
@@ -169,7 +169,7 @@ class SymbolInfo:
         )
         self.SetupReady = True
 
-        self.SaveLog(f"New SetUp is loaded {name}",typeOFlog=0)
+        self.__SaveLog(f"New SetUp is loaded {name}", typeOFlog=0)
 
     def SaveTrades(self, trades):
         self.SetUpLoaded()
@@ -177,7 +177,7 @@ class SymbolInfo:
         trades['id'] = self.id
         with open(fr'{Path}.json', 'w') as json_file:
             json.dump(trades, json_file)
-        self.SaveLog(f"New Trades is Saved",typeOFlog=1)
+        self.__SaveLog(f"New Trades is Saved", typeOFlog=1)
 
 
     def SaveStock(self, stocks, column_names=None):
@@ -213,11 +213,17 @@ class SymbolInfo:
         with open(indexPath, 'w') as json_file:
             json.dump(indexs, json_file, indent=4)
             
-        self.SaveLog(f"New Data is Saved",typeOFlog=1)
+        self.__SaveLog(f"New Data is Saved", typeOFlog=1)
+
+    def __saved_file_check(self, fileName , path, type):
+        if os.path.exists(path):
+            self.__SaveLog(f"file Saved Successfully {fileName}"  ,typeOFlog=type)
+        else:
+            self.__SaveLog(f"file failed {fileName}"  ,typeOFlog=type)
 
 
-    def SaveLog(self, message, typeOFlog):
-        LOGStypes = ["setup","Data_info" ,"Extra",]
+    def __SaveLog(self, message, typeOFlog):
+        LOGStypes = ["setup", "Data_info", "model_building", "Extra",]
 
         Path = os.path.join(self.mainPath, "LOGS", f"{LOGStypes[typeOFlog]}")
         with open(Path, "a") as log:
